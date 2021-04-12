@@ -21,7 +21,7 @@ namespace API.Data
             //คนที่กดไลค์ 1 คน สามารถไลค์ได้หลายคน
             builder.Entity<UserLike>()
             .HasOne(s => s.SourceUser)
-            .WithMany(l => l.LikedFromUser)
+            .WithMany(l => l.LikedUser)
             .HasForeignKey(s => s.SourceUserId)
             .OnDelete(DeleteBehavior.Cascade);
 

@@ -29,7 +29,7 @@ namespace API.Entities
         public ICollection<Photo> Photos { get; set; }
 
         public ICollection<UserLike> LikedByUser { get; set; }
-        public ICollection<UserLike> LikedFromUser { get; set; }
+        public ICollection<UserLike> LikedUser { get; set; }
 
     }
 }
