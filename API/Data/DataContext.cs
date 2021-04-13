@@ -33,10 +33,25 @@ namespace API.Data
             .OnDelete(DeleteBehavior.Cascade);
 
             //*Important: SQL-Server gonna need to set DeleteBehavior, otherwise will get an error
+
+            //ผู้รับข้อความ 1 คน สามารถรับข้อความจากผู้ส่งได้หลายคน
+            builder.Entity<Message>()
+            .HasOne(u => u.Recipient)
+            .WithMany(m => m.MessagesRecieve)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            //ผู้ส่งข้อความ 1 คน สามารถสงข้อความให้กับผู้รับได้หลายคน
+            builder.Entity<Message>()
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.MessagesSend)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
         }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
     }
 
 }

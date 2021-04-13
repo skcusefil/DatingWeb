@@ -25,6 +25,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './_form/text-input/text-input.component';
 import { DateInputComponent } from './_form/date-input/date-input.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 
 
@@ -45,7 +47,8 @@ import { DateInputComponent } from './_form/date-input/date-input.component';
     MemberEditComponent,
     PhotoEditorComponent,
     TextInputComponent,
-    DateInputComponent
+    DateInputComponent,
+    MemberMessagesComponent
   ],
   imports: [
     BrowserModule,
