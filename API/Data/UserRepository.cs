@@ -31,7 +31,7 @@ namespace API.Data
         {
             return await _context.Users
             .Include(p => p.Photos)
-            .SingleOrDefaultAsync(x => x.Username == username);
+            .SingleOrDefaultAsync(x => x.UserName == username);
         }
 
         public async Task<IEnumerable<AppUser>> GetUserAnsync()
@@ -52,7 +52,7 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> GetMembersAnsync(UserParams userParams)
         {
             var query =  _context.Users.AsQueryable();
-                query = query.Where(u => u.Username != userParams.CurrentUsername);         
+                query = query.Where(u => u.UserName != userParams.CurrentUsername);         
                 query = query.Where(u => u.Gender == userParams.Gender);
 
                 //defaul case  _ => query.OrderByDescending(u => u.LastActivite)
@@ -85,7 +85,7 @@ namespace API.Data
 
             //ProjecTo is easier
             return await _context.Users
-                            .Where(x=>x.Username == username)
+                            .Where(x=>x.UserName == username)
                             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                             .SingleOrDefaultAsync();
         }

@@ -29,10 +29,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser([FromQuery]UserParams userParams)
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
             var user = await _userRepository.GetUserByUserNameAsync(User.GetUserName());
-            userParams.CurrentUsername = user.Username;
+            userParams.CurrentUsername = user.UserName;
 
             if(string.IsNullOrEmpty(userParams.Gender))
             {
@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{username}", Name = "GetUser")]
-        public async Task<ActionResult<MemberDto>> GetUserByName(string username)
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             // var user = await _userRepository.GetUserByUserNameAsync(username);
             // return _mapper.Map<MemberDto>(user);
@@ -95,7 +95,7 @@ namespace API.Controllers
             if(await _userRepository.SaveAllAsync())
             {
                 //return _mapper.Map<PhotoDto>(photo);
-                return CreatedAtRoute("GetUser", new {username = user.Username},_mapper.Map<PhotoDto>(photo));
+                return CreatedAtRoute("GetUser", new {username = user.UserName},_mapper.Map<PhotoDto>(photo));
             }
 
             return BadRequest("Problem adding photo");
