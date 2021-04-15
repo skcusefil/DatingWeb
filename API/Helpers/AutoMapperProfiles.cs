@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using API.DTOs;
 using API.Entities;
@@ -21,6 +22,8 @@ namespace API.Helpers
             CreateMap<MemberUpdateDto,AppUser>();
 
             CreateMap<RegisterDto,AppUser>();
+
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
 
             CreateMap<Message, MessageDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => 

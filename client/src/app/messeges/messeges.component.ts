@@ -17,7 +17,7 @@ export class MessagesComponent implements OnInit {
   pageSiize = 5;
   loading = false;
 
-  constructor(private messageService: MessageService) { }
+  constructor(public messageService: MessageService) { }
 
   ngOnInit(): void {
     this.loadMessages();
@@ -31,9 +31,6 @@ export class MessagesComponent implements OnInit {
       this.loading = false;
     })
 
-    this.messages?.forEach(item => {
-      console.log(item.content);
-    })
   }
 
   pageChanged(event: any){
