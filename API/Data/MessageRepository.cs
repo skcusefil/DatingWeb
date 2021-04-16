@@ -45,6 +45,15 @@ namespace API.Data
             _context.Connections.Remove(connection);
         }
 
+        public async Task<Group> GetGroupForConnection(string connectionId)
+        {
+            return await _context.Groups
+            .Include(c => c.Connections)
+            .Where(c => c.Connections.Any(x=>x.ConnectionId == connectionId))
+            .FirstOrDefaultAsync();
+        }
+
+
         #endregion
 
         public void AddMessage(Message message)
@@ -89,16 +98,16 @@ namespace API.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
-             var messages = await _context.Messages
-                .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
-                        && m.Sender.UserName == recipientUsername
-                        || m.Recipient.UserName == recipientUsername
-                        && m.Sender.UserName == currentUsername && m.SenderDelete == false
-                )
-                .MarkUnreadAsRead(currentUsername)
-                .OrderBy(m => m.MessageSent)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var messages = await _context.Messages
+               .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
+                       && m.Sender.UserName == recipientUsername
+                       || m.Recipient.UserName == recipientUsername
+                       && m.Sender.UserName == currentUsername && m.SenderDelete == false
+               )
+               .MarkUnreadAsRead(currentUsername)
+               .OrderBy(m => m.MessageSent)
+               .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
+               .ToListAsync();
 
             return messages;
         }

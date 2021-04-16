@@ -18,22 +18,25 @@ namespace API.SignalR
         }
         public override async Task OnConnectedAsync()
         {
-            await _tracker.UserConnected(Context.User.GetUserName(), Context.ConnectionId);
-            await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUserName());
+            var isOnline = await _tracker.UserConnected(Context.User.GetUserName(), Context.ConnectionId);
+
+            if (isOnline)
+            {
+                await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUserName());
+            }
 
             var currentUsers = await _tracker.GetOnlineUser();
-            await Clients.All.SendAsync("GetOnlineUsers", currentUsers);
+            await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await _tracker.UserDisconnected(Context.User.GetUserName(), Context.ConnectionId);
+            var isOffline = await _tracker.UserDisconnected(Context.User.GetUserName(), Context.ConnectionId);
 
-            await Clients.Others.SendAsync("UserIsOfline", Context.User.GetUserName());
-
-            var currentUsers = await _tracker.GetOnlineUser();
-            await Clients.All.SendAsync("GetOnlineUsers", currentUsers);
-            
+            if (isOffline)
+            {
+                await Clients.Others.SendAsync("UserIsOfline", Context.User.GetUserName());
+            }
             await base.OnDisconnectedAsync(exception);
         }
     }

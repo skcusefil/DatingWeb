@@ -10,6 +10,7 @@ namespace API.Interfaces
     {
         #region  methods for chat and connection with signalr
         void AddGroup(Group group);
+        Task<Group> GetGroupForConnection(string connectionId);
         Task<Connection> GetConnection(string connectionId);
         Task<Group> GetmessageGroup(string groupName);
         void RemoveConnection(Connection connection);
