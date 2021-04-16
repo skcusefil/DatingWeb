@@ -23,8 +23,6 @@ namespace API.Helpers
 
             CreateMap<RegisterDto,AppUser>();
 
-            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
-
             CreateMap<Message, MessageDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => 
                     opt.MapFrom(s => s.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))

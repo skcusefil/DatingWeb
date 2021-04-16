@@ -18,10 +18,14 @@ namespace API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddSingleton<PresenceTracker>();
             services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<LogUserActivity>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
-            services.AddScoped<ILikesRepository,LikesRepository>();
+
+            //dont need when use Unit of work
+            // services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddScoped<IMessageRepository, MessageRepository>();
+            // services.AddScoped<ILikesRepository,LikesRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IPhotoService, PhotoService>();
 

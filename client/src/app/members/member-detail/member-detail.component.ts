@@ -75,17 +75,13 @@ export class MemberDetailComponent implements OnInit, OnDestroy{
     return imageUrl;
   }
 
-  onTabActivated(data: TabDirective){
+  onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      if(this.user)
-      {
-        this.messageService.createHubConnection(this.user, this.member.username);
-      } else {
-        this.messageService.stopHubConnection();
-      }
-      }
-
+      this.messageService.createHubConnection(this.user, this.member.username);
+    } else {
+      this.messageService.stopHubConnection();
+    }
   }
   
   loadMessages(){

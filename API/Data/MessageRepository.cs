@@ -80,7 +80,9 @@ namespace API.Data
         {
             var query = _context.Messages
                             .OrderByDescending(m => m.MessageSent)
+                            .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                             .AsQueryable();
+                            
             query = messageParams.Container switch
             {
                 "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username
@@ -91,9 +93,7 @@ namespace API.Data
                     messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
 
-            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-
-            return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+            return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
@@ -110,11 +110,6 @@ namespace API.Data
                .ToListAsync();
 
             return messages;
-        }
-
-        public async Task<bool> SaveAllAnsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
